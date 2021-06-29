@@ -1,0 +1,63 @@
+import win32com.client as win32
+import pandas as pd
+from pathlib import Path
+
+data_folder = Path('C:/automation/')
+file_to_open = data_folder / 'automation.xls'
+f = open(file_to_open)
+
+email_list = pd.read_excel(file_to_open)
+
+##names = email_list['NAME']
+emails = email_list['EMAIL']
+prs = email_list['PRNUMBER']
+project_names = email_list['PROJECT_NAME']
+assignees = email_list['ASSESSMENT_LEAD_'] 
+
+for i in range(len(emails)):
+   ##name = names[i]
+   email = emails[i]
+   pr = prs[i]
+   project_name = project_names[i]
+   assignee = assignees[i]
+
+   outlook = win32.Dispatch('outlook.application')
+   mail = outlook.CreateItem(0)
+   mail.To = email
+   mail.CC = 'Greg.com'
+   mail.Subject = 'SUBJECT'
+   
+   mail.HTMLBody = """
+   <html>
+      <head> </head> 
+      
+      <body>
+         <font color='Black' face='Calibri Light (Heading)'>
+         <p>
+          Hello,  
+         </p>
+      
+         <p>
+         I am
+         </p>
+
+         <br>
+         <br>
+         
+         <p>
+         Thanks,<br>
+   
+       
+         </p>
+
+
+
+
+         </font>
+      </body>
+   </html>
+   """
+   
+   ##mail.Send()
+   mail.BodyFormat = 2
+   mail.Display(True)
